@@ -1,0 +1,19 @@
+services:
+  localstack:
+    image: ${LOCALSTACK_IMAGE:-localstack/localstack:community-archive}
+    container_name: localstack-main
+    ports:
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4510-4559:4510-4559"
+    environment:
+      LOCALSTACK_AUTH_TOKEN: ${LOCALSTACK_AUTH_TOKEN:-}
+      ACTIVATE_PRO: ${ACTIVATE_PRO:-0}
+      DEBUG: "1"
+      PERSISTENCE: "1"
+      SERVICES: s3,dynamodb,iam,sts
+    volumes:
+      - localstack-data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  localstack-data:
